@@ -15,7 +15,7 @@ import com.mongodb.MongoException;
 public class NoSQLWriter {
 
 	private String primaryKey = null;
-	
+
 	public void setPrimaryKey(String primaryKey) {
 		this.primaryKey = primaryKey;
 	}
@@ -24,13 +24,15 @@ public class NoSQLWriter {
 		return primaryKey;
 	}
 
-	public void writeToNoSQL(List<Map<String, Object>> entityList) throws UnsupportedEncodingException, IOException, HttpException {
+	public void writeToNoSQL(List<Map<String, Object>> entityList)
+			throws UnsupportedEncodingException, IOException, HttpException {
 	}
-	
-	public void initConnection(ResourceBundle rb) throws UnknownHostException, MongoException, MalformedURLException, IOException {
+
+	public void initConnection(ResourceBundle rb) throws UnknownHostException,
+			MongoException, MalformedURLException, IOException {
 	}
-	
-	public void close() {		
+
+	public void close() {
 	}
-	
+
 }
