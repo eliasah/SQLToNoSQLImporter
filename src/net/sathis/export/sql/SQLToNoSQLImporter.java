@@ -27,13 +27,17 @@ public class SQLToNoSQLImporter {
 				.getString("autoCommitSize")));
 		String configFile = (String) rb.getObject("sql-data-config-file");
 
-		System.out.println(configFile);
+		// FIXME
+		// System.out.println(configFile);
 		importer.doDataImport(configFile);
+		
+		System.out.println("DONE!");
 	}
 
 	/**
 	 * @param rb
 	 */
+	@SuppressWarnings("unused")
 	private static void enumarateKeys(ResourceBundle rb) {
 		Enumeration<String> e = rb.getKeys();
 		while (e.hasMoreElements()) {

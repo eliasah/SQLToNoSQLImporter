@@ -17,9 +17,9 @@ import java.util.regex.Pattern;
 
 import net.sathis.export.sql.model.DataConfig.Entity;
 import net.sathis.export.sql.model.DataConfig.Field;
+import net.sathis.export.sql.model.DataStoreType;
 import net.sathis.export.sql.model.FieldType;
 import net.sathis.export.sql.model.FieldTypeParser;
-import net.sathis.export.sql.model.DataStoreType;
 
 import org.apache.commons.dbutils.BasicRowProcessor;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -58,31 +58,18 @@ import org.apache.http.HttpException;
 public class DocBuilder {
 
 	private static Log log = LogFactory.getLog(DocBuilder.class);
-
 	private DataImporter importer;
-
 	private Connection conn = null;
-
 	private Connection subConnection = null;
-
 	private Statement stmt = null;
-
 	ResultSet rs = null;
-
 	ResultSet resultSet = null;
-
 	private int batchSize = 100;
-
 	private Map<String, String> params = null;
-
 	private Map<String, Object> subEntityData = null;
-
 	private Statement subLevel = null;
-
 	private Pattern p = Pattern.compile("(\\$\\{.*?\\})");
-
 	private Matcher m;
-
 	BasicRowProcessor processor = new BasicRowProcessor();
 
 	public DocBuilder(DataImporter importer) {
@@ -134,6 +121,8 @@ public class DocBuilder {
 					long t2 = System.currentTimeMillis();
 					log.info("Time taken to Read " + i
 							+ " documents from SQL : " + (t2 - t1) + " ms");
+					System.out.println("Time taken to Read " + i
+							+ " documents from SQL : " + (t2 - t1) + " ms"); // FIXME
 					importer.getWriter().writeToNoSQL(entityList);
 					entityList = new ArrayList<Map<String, Object>>();
 					i = 0;

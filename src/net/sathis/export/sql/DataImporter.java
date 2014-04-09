@@ -2,9 +2,7 @@ package net.sathis.export.sql;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -84,7 +82,7 @@ public class DataImporter {
 	}
 
 	public void doDataImport(String configFile) throws IOException {
-		System.out.println("DataImporter.doDataImport");
+		// System.out.println("DataImporter.doDataImport");
 
 		// ClassLoader tmp = Thread.currentThread().getContextClassLoader();
 		// URL res = tmp.getResource(configFile);

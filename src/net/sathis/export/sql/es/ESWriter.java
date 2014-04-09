@@ -60,6 +60,8 @@ public class ESWriter extends NoSQLWriter {
 	@Override
 	public void writeToNoSQL(List<Map<String, Object>> entityList) {
 		JSONArray array = JSONArray.fromObject(entityList);
+		// FIXME remove JSONArray print
+		// System.out.println(array.toString());
 		for (int i = 0; i < array.size(); i++) {
 			IndexRequestBuilder builder = client.prepareIndex(index_name,
 					index_type);
