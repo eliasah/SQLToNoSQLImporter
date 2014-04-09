@@ -54,7 +54,7 @@
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-core</artifactId>
-			<version>3.6.0</version>
+			<version>4.7.0</version>
 		</dependency>
 
 		<!-- set Lucene Analyzers dependency -->
@@ -64,11 +64,11 @@
 			<version>3.6.0</version>
 		</dependency>
 
-		<!-- set FLuent HttpClient dependency -->
+		<!-- set Fluent HttpClient dependency -->
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>fluent-hc</artifactId>
-			<version>4.2.1</version>
+			<version>4.3.3</version>
 		</dependency>
 
 		<!-- set HttpClient dependency -->
@@ -104,6 +104,44 @@
 			<groupId>postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>9.1-901.jdbc4</version>
+		</dependency>
+
+		<!-- set MySQL JDBC Driver -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.30</version>
+		</dependency>
+
+		<!-- set json-lib -->
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>2.4</version>
+			<classifier>jdk15</classifier>
+		</dependency>
+
+		<!-- set Commons DbUtils dependency -->
+		<dependency>
+			<groupId>commons-dbutils</groupId>
+			<artifactId>commons-dbutils</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+		<!-- set Commons IO dependency - The Commons IO library contains utility 
+			classes, stream implementations, file filters, file comparators, endian transformation 
+			classes, and much more. -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
+		</dependency>
+
+		<!-- Commons Logging -->
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1.1</version>
 		</dependency>
 
 

@@ -1,15 +1,23 @@
-<dataConfig>
+<?xml version="1.0" encoding="UTF-8"?>
 
-    <dataSource driver="org.postgresql.Driver" url="jdbc:postgresql://localhost/testing" user="postgres" password="testing" batch-size="-1"/>
-   
-    <document>
-       <entity name="user" pk="id" query="select * from users">
-		  <field column="id" name="id" type="long"/>
-		  <field column="name" name="userName" type="string"/>    
-         
-          <entity name="tweet"  multiValued="true" query="SELECT MESSAGE FROM TWEET WHERE USER_ID='${user.id}'"> 
-				<field name="tweet" column="MESSAGE" type="string" />
-		  </entity>
-	   </entity>	   
-    </document>	
+<dataConfig>
+	<!-- PostgreSQL config -->
+	<!-- <dataSource driver="org.postgresql.Driver" url="jdbc:postgresql://localhost/testing" 
+		user="postgres" password="testing" batch-size="-1" /> -->
+
+	<!-- MySQL config -->
+	<dataSource type="JdbcDataSource" driver="com.mysql.jdbc.Driver"
+		url="jdbc:mysql://127.0.0.1/test" user="root" password="root"
+		batch-size="-1" />
+
+	<document>
+		<entity name="test" pk="id" query="select * from tags">
+			<field column="docid" name="docid" type="integer" />
+			<field column="tagid" name="tagid" type="integer" />
+			<entity name="tags" multiValued="true"
+				query="SELECT * FROM tags">
+				<field name="test" column="docid" type="integer" />
+			</entity>
+		</entity>
+	</document>
 </dataConfig>
