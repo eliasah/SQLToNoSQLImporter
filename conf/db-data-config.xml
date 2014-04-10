@@ -7,16 +7,19 @@
 
 	<!-- MySQL config -->
 	<dataSource type="JdbcDataSource" driver="com.mysql.jdbc.Driver"
-		url="jdbc:mysql://127.0.0.1/dev" user="root" password="root"
+		url="jdbc:mysql://127.0.0.1/products_fr" user="root" password="root"
 		batch-size="-1" />
 
+
+	<!-- MySQL Schema -->
 	<document>
-		<entity name="PRODUCTS" query="select * from PRODUCTS">
+		<entity name="PRODUCTS"
+			query="SELECT id,title from PRODUCTS ORDER BY PRODUCTS.id LIMIT 10000;">
 			<field column="id" name="id" type="integer" />
 			<field column="title" name="title" type="string" />
-			<field column="ean" name="ean" type="string"/>
-			<entity name="PRODUCTS" multiValued="true" query="SELECT * FROM PRODUCTS">
-				<field name="dev" column="id" type="integer" />
+			<entity name="PRODUCTS" multiValued="true"
+				query="SELECT id,title from PRODUCTS ORDER BY PRODUCTS.id LIMIT 10000;">
+				<field name="products_fr" column="id" type="integer" />
 			</entity>
 		</entity>
 	</document>
