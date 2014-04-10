@@ -7,16 +7,16 @@
 
 	<!-- MySQL config -->
 	<dataSource type="JdbcDataSource" driver="com.mysql.jdbc.Driver"
-		url="jdbc:mysql://127.0.0.1/test" user="root" password="root"
+		url="jdbc:mysql://127.0.0.1/dev" user="root" password="root"
 		batch-size="-1" />
 
 	<document>
-		<entity name="test" pk="id" query="select * from tags">
-			<field column="docid" name="docid" type="integer" />
-			<field column="tagid" name="tagid" type="integer" />
-			<entity name="tags" multiValued="true"
-				query="SELECT * FROM tags">
-				<field name="test" column="docid" type="integer" />
+		<entity name="PRODUCTS" query="select * from PRODUCTS">
+			<field column="id" name="id" type="integer" />
+			<field column="title" name="title" type="string" />
+			<field column="ean" name="ean" type="string"/>
+			<entity name="PRODUCTS" multiValued="true" query="SELECT * FROM PRODUCTS">
+				<field name="dev" column="id" type="integer" />
 			</entity>
 		</entity>
 	</document>
