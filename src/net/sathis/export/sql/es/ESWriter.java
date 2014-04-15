@@ -1,5 +1,6 @@
 package net.sathis.export.sql.es;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -38,8 +39,34 @@ public class ESWriter extends NoSQLWriter {
 
 	@Override
 	public void initConnection(ResourceBundle rb) {
-		Settings settings = ImmutableSettings.settingsBuilder()
-				.put("cluster.name", rb.getString("es.cluster.name")).build();
+		Settings settings = ImmutableSettings
+				.settingsBuilder()
+				.put("cluster.name", rb.getString("es.cluster.name"))
+				// Define analyzer settings
+				.put("index.analysis.analyzer.fr.type", "custom")
+				.put("index.analysis.analyzer.fr.tokenizer", "icu_tokenizer")
+				.put("index.analysis.analyzer.fr.filter.0", "icu_folding")
+				.put("index.analysis.analyzer.fr.filter.1", "icu_normalizer")
+				.put("index.analysis.analyzer.fr.filter.2", "asciifolding")
+				.put("index.analysis.analyzer.fr.filter.3", "french_stemmer")
+				.put("index.analysis.analyzer.fr.filter.4", "stop")
+				.put("index.analysis.filter.french_stemmer.type", "stemmer")
+				.put("index.analysis.filter.french_stemmer.name ",
+						"light_french")
+				.put("index.analysis.search_analyzer.filter.0", "standard")
+				.put("index.analysis.search_analyzer.filter.1", "lowercase")
+				.put("index.analysis.search_analyzer.filter.2", "stop")
+				.put("index.analysis.search_analyzer.filter.3", "asciifolding")
+				.put("index.analysis.search_analyzer.filter.4x	", "porter_stem")
+				.put("index.analysis.search_analyzer.tokenizer", "standard")
+				// Define similarity module settings
+				.put("similarity.custom.type", "IB")
+				.put("similarity.custom.distribution", "ll")
+				.put("similarity.custom.lambda", "df")
+				// .put("similarity.custom.k1", 2.0f)
+				// .put("similarity.custom.b", 1.5f)
+				.build();
+
 		client = new TransportClient(settings);
 		String host[] = StringUtils.split(rb.getString("es.hosts"), ",");
 		for (int i = 0; i < host.length; i++) {
@@ -58,20 +85,25 @@ public class ESWriter extends NoSQLWriter {
 	}
 
 	@Override
-	public void writeToNoSQL(List<Map<String, Object>> entityList) {
+	public void writeToNoSQL(List<Map<String, Object>> entityList)
+			throws IOException {
 		JSONArray array = JSONArray.fromObject(entityList);
-		// FIXME remove JSONArray print
-		// System.out.println(array.toString());
+
+		// FIXME When autoCommitSize smaller than DB row count, document
+		// duplication
 		for (int i = 0; i < array.size(); i++) {
 			IndexRequestBuilder builder = client.prepareIndex(index_name,
 					index_type);
-			if (getPrimaryKey() != null)
+
+			if (getPrimaryKey() != null) {
 				builder.setId(((JSONObject) array.get(i))
 						.getString(getPrimaryKey()));
+			}
 			builder.setSource(array.get(i).toString());
 			bulkRequest.add(builder);
 		}
 		if (bulkRequest.numberOfActions() > 0) {
+
 			long t1 = System.currentTimeMillis();
 			ListenableActionFuture<BulkResponse> action = bulkRequest.execute();
 			long t2 = System.currentTimeMillis();
@@ -85,6 +117,10 @@ public class ESWriter extends NoSQLWriter {
 			}
 			log.info("Time taken to Write " + bulkRequest.numberOfActions()
 					+ " documents to ES :" + ((t2 - t1)) + " ms");
+			System.out.println("Time taken to Write "
+					+ bulkRequest.numberOfActions() + " documents to ES :"
+					+ ((t2 - t1)) + " ms");
+
 		}
 	}
 
