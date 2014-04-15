@@ -50,12 +50,14 @@ public class MongoWriter extends NoSQLWriter {
 
 	public void initConnection(String url, String dbName)
 			throws UnknownHostException, MongoException {
+		@SuppressWarnings("deprecation")
 		Mongo m = new Mongo(url);
 		db = m.getDB(dbName);
 	}
 
 	public void initConnection(String url, String dbName, String user,
 			String password) throws UnknownHostException, MongoException {
+		@SuppressWarnings("deprecation")
 		Mongo m = new Mongo(url);
 		db = m.getDB(dbName);
 
