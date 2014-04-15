@@ -76,6 +76,7 @@ public class DocBuilder {
 		this.importer = importer;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void execute() throws ClassNotFoundException,
 			InstantiationException, IllegalAccessException, SQLException,
 			UnsupportedEncodingException, IOException, HttpException {
@@ -114,25 +115,29 @@ public class DocBuilder {
 			rs = stmt.executeQuery(rootQuery);
 			int i = 0;
 			List<Map<String, Object>> entityList = new ArrayList<Map<String, Object>>();
-			long t1 = System.currentTimeMillis();
 
+			long t1 = System.currentTimeMillis();
 			while (rs.next()) {
 				if (i == importer.getAutoCommitSize()) {
 					long t2 = System.currentTimeMillis();
 					log.info("Time taken to Read " + i
 							+ " documents from SQL : " + (t2 - t1) + " ms");
+					// FIXME Remove ouput
 					System.out.println("Time taken to Read " + i
-							+ " documents from SQL : " + (t2 - t1) + " ms"); // FIXME
+							+ " documents from SQL : " + (t2 - t1) + " ms");
 					importer.getWriter().writeToNoSQL(entityList);
 					entityList = new ArrayList<Map<String, Object>>();
+
 					i = 0;
 					t1 = System.currentTimeMillis();
+
 				}
 				params = new HashMap<String, String>();
 				entityList.add(getFields(processor.toMap(rs), rs, rootEntity,
 						null, null));
 				i++;
 			}
+
 			importer.getWriter().writeToNoSQL(entityList);
 		}
 
@@ -140,6 +145,7 @@ public class DocBuilder {
 		subConnection.close();
 	}
 
+	@SuppressWarnings("unchecked")
 	public Map<String, Object> getFields(Map<String, Object> firstRow,
 			ResultSet rs, Entity entity, Map<String, Object> entityMap,
 			Map<String, Object> rootEntityMap) throws SQLException {

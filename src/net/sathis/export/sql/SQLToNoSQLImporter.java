@@ -27,10 +27,8 @@ public class SQLToNoSQLImporter {
 				.getString("autoCommitSize")));
 		String configFile = (String) rb.getObject("sql-data-config-file");
 
-		// FIXME
-		// System.out.println(configFile);
 		importer.doDataImport(configFile);
-		
+
 		System.out.println("DONE!");
 	}
 

@@ -1,3 +1,20 @@
+/**
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package net.sathis.export.sql;
 
 import java.io.IOException;
@@ -28,6 +45,14 @@ import org.xml.sax.InputSource;
 
 import com.mongodb.MongoException;
 
+/**
+ * <p>
+ * Stores all configuration information for pulling and indexing data.
+ * </p>
+ * <p/>
+ * <b>This API is experimental and subject to change</b>
+ * 
+ */
 public class DataImporter {
 
 	private static Log log = LogFactory.getLog(DataImporter.class);
@@ -40,24 +65,55 @@ public class DataImporter {
 
 	int autoCommitSize = 500;
 
-	int getAutoCommitSize() {
-		return autoCommitSize;
+	public static final String COLUMN = "column";
+
+	public static final String TYPE = "type";
+
+	public static final String DATA_SRC = "dataSource";
+
+	public DataImporter(ResourceBundle rb) throws MongoException,
+			InvalidAttributesException, MalformedURLException, IOException {
+		dataStoreType = DataStoreType.valueOf(rb.getString("dataStoreType")
+				.toUpperCase());
+		findDataStoreWriter();
+		getWriter().initConnection(rb);
 	}
 
-	void setAutoCommitSize(int newSize) {
-		autoCommitSize = newSize;
+	/**
+	 * 
+	 * @param configFile
+	 * @throws IOException
+	 */
+	public void doDataImport(String configFile) throws IOException {
+
+		InputSource file = new InputSource(configFile);
+
+		loadDataConfig(file);
+
+		if (config != null) {
+			for (DataConfig.Entity e : config.document.entities) {
+				Map<String, DataConfig.Field> fields = new HashMap<String, DataConfig.Field>();
+
+				initEntity(e, fields, false);
+				identifyPk(e);
+			}
+
+			doFullImport();
+		} else {
+			log.error("Configuration files are missing !!!!!!!!.......");
+		}
 	}
 
-	DataConfig getConfig() {
-		return config;
-	}
-
-	public void setWriter(NoSQLWriter writer) {
-		this.writer = writer;
-	}
-
-	public NoSQLWriter getWriter() {
-		return writer;
+	public void doFullImport() {
+		try {
+			DocBuilder docBuilder = new DocBuilder(this);
+			docBuilder.execute();
+			getWriter().close();
+			log.info("*****  Data import completed successfully. **********");
+		} catch (Throwable t) {
+			log.error("*****  Data import failed. **********\n Reason is :");
+			t.printStackTrace();
+		}
 	}
 
 	private void findDataStoreWriter() throws InvalidAttributesException {
@@ -73,35 +129,20 @@ public class DataImporter {
 		}
 	}
 
-	public DataImporter(ResourceBundle rb) throws MongoException,
-			InvalidAttributesException, MalformedURLException, IOException {
-		dataStoreType = DataStoreType.valueOf(rb.getString("dataStoreType")
-				.toUpperCase());
-		findDataStoreWriter();
-		getWriter().initConnection(rb);
+	int getAutoCommitSize() {
+		return autoCommitSize;
 	}
 
-	public void doDataImport(String configFile) throws IOException {
-		// System.out.println("DataImporter.doDataImport");
+	DataConfig getConfig() {
+		return config;
+	}
 
-		// ClassLoader tmp = Thread.currentThread().getContextClassLoader();
-		// URL res = tmp.getResource(configFile);
-		// System.out.println(res.getFile());
+	public DataStoreType getDataStoreType() {
+		return dataStoreType;
+	}
 
-		InputSource file = new InputSource(configFile);
-
-		loadDataConfig(file);
-
-		if (config != null) {
-			for (DataConfig.Entity e : config.document.entities) {
-				Map<String, DataConfig.Field> fields = new HashMap<String, DataConfig.Field>();
-				initEntity(e, fields, false);
-				identifyPk(e);
-			}
-			doFullImport();
-		} else {
-			log.error("Configuration files are missing !!!!!!!!.......");
-		}
+	public NoSQLWriter getWriter() {
+		return writer;
 	}
 
 	private void identifyPk(DataConfig.Entity entity) {
@@ -114,35 +155,6 @@ public class DataImporter {
 				entity.pkMappingFromSchema = field.column;
 				break;
 			}
-		}
-
-	}
-
-	private void loadDataConfig(InputSource configFile) {
-
-		try {
-			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-
-			DocumentBuilder builder = dbf.newDocumentBuilder();
-			Document document;
-			try {
-				document = builder.parse(configFile);
-			} finally {
-				// some XML parsers are broken and don't close the byte stream
-				// (but they should according to spec)
-				IOUtils.closeQuietly(configFile.getByteStream());
-			}
-
-			config = new DataConfig();
-			NodeList elems = document.getElementsByTagName("dataConfig");
-			if (elems == null || elems.getLength() == 0) {
-				log.error("the root node '<dataConfig>' is missing");
-				throw new IOException();
-			}
-			config.readFromXml((Element) elems.item(0));
-			log.info("Data Configuration loaded successfully");
-		} catch (Exception e) {
-			log.error(e.getStackTrace());
 		}
 
 	}
@@ -177,30 +189,49 @@ public class DataImporter {
 		}
 	}
 
-	public void doFullImport() {
+	/**
+	 * 
+	 * @param configFile
+	 */
+	private void loadDataConfig(InputSource configFile) {
+
 		try {
-			DocBuilder docBuilder = new DocBuilder(this);
-			docBuilder.execute();
-			getWriter().close();
-			log.info("*****  Data import completed successfully. **********");
-		} catch (Throwable t) {
-			log.error("*****  Data import failed. **********\n Reason is :");
-			t.printStackTrace();
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+
+			DocumentBuilder builder = dbf.newDocumentBuilder();
+			Document document;
+			try {
+				document = builder.parse(configFile);
+			} finally {
+				// some XML parsers are broken and don't close the byte stream
+				// (but they should according to spec)
+				IOUtils.closeQuietly(configFile.getByteStream());
+			}
+
+			config = new DataConfig();
+			NodeList elems = document.getElementsByTagName("dataConfig");
+			if (elems == null || elems.getLength() == 0) {
+				log.error("the root node '<dataConfig>' is missing");
+				throw new IOException();
+			}
+			config.readFromXml((Element) elems.item(0));
+			log.info("Data Configuration loaded successfully");
+		} catch (Exception e) {
+			log.error(e.getStackTrace());
 		}
+
+	}
+
+	void setAutoCommitSize(int newSize) {
+		autoCommitSize = newSize;
 	}
 
 	public void setDataStoreType(DataStoreType exportType) {
 		this.dataStoreType = exportType;
 	}
 
-	public DataStoreType getDataStoreType() {
-		return dataStoreType;
+	public void setWriter(NoSQLWriter writer) {
+		this.writer = writer;
 	}
-
-	public static final String COLUMN = "column";
-
-	public static final String TYPE = "type";
-
-	public static final String DATA_SRC = "dataSource";
 
 }
