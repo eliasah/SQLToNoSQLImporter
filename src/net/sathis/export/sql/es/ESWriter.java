@@ -41,31 +41,12 @@ public class ESWriter extends NoSQLWriter {
 	public void initConnection(ResourceBundle rb) {
 		Settings settings = ImmutableSettings
 				.settingsBuilder()
+				// set cluster name
 				.put("cluster.name", rb.getString("es.cluster.name"))
-				// Define analyzer settings
-				.put("index.analysis.analyzer.fr.type", "custom")
-				.put("index.analysis.analyzer.fr.tokenizer", "icu_tokenizer")
-				.put("index.analysis.analyzer.fr.filter.0", "icu_folding")
-				.put("index.analysis.analyzer.fr.filter.1", "icu_normalizer")
-				.put("index.analysis.analyzer.fr.filter.2", "asciifolding")
-				.put("index.analysis.analyzer.fr.filter.3", "french_stemmer")
-				.put("index.analysis.analyzer.fr.filter.4", "stop")
-				.put("index.analysis.filter.french_stemmer.type", "stemmer")
-				.put("index.analysis.filter.french_stemmer.name ",
-						"light_french")
-				.put("index.analysis.search_analyzer.filter.0", "standard")
-				.put("index.analysis.search_analyzer.filter.1", "lowercase")
-				.put("index.analysis.search_analyzer.filter.2", "stop")
-				.put("index.analysis.search_analyzer.filter.3", "asciifolding")
-				.put("index.analysis.search_analyzer.filter.4x	", "porter_stem")
-				.put("index.analysis.search_analyzer.tokenizer", "standard")
 				// Define similarity module settings
-				.put("similarity.custom.type", "IB")
-				.put("similarity.custom.distribution", "ll")
-				.put("similarity.custom.lambda", "df")
-				// .put("similarity.custom.k1", 2.0f)
-				// .put("similarity.custom.b", 1.5f)
-				.build();
+				.put("similarity.custom.type", "BM25")
+				.put("similarity.custom.k1", 2.0f)
+				.put("similarity.custom.b", 1.5f).build();
 
 		client = new TransportClient(settings);
 		String host[] = StringUtils.split(rb.getString("es.hosts"), ",");
