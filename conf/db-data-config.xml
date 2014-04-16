@@ -12,22 +12,15 @@
 
 	<!-- MySQL Schema -->
 	<document>
-		<entity name="PRODUCTS"
-			query="SELECT id,title,description,comparatorCategory 
-		FROM PRODUCTS WHERE title like '%iphone%';">
-			<field column="id" name="title" type="integer" />
+		<entity name="OFFERS" query="SELECT id,title,description,categoryId,brandId,merchantId,price,titleScore FROM OFFERS LIMIT 1000;">
+			<field column="id" name="id" type="integer" />
 			<field column="title" name="title" type="string" />
 			<field column="description" name="description" type="string" />
-			<field column="comparatorCategory" name="category" type="string" />
-		</entity>
-
-		<entity name="PRODUCTS"
-			query="SELECT id,title,description,comparatorCategory 
-		from PRODUCTS LIMIT 20000;">
-			<field column="id" name="title" type="integer" />
-			<field column="title" name="title" type="string" />
-			<field column="comparatorCategory" name="category" type="string" />
-			<field column="description" name="description" type="string" />
+			<field column="categoryId" name="categoryId" type="integer" />
+			<field column="brandId" name="brandId" type="integer" />
+			<field column="merchantId" name="merchantId" type="integer" />
+			<field column="price" name="price" type="double" />
+			<field column="titleScore" name="titleScore" type="integer" />
 		</entity>
 	</document>
 </dataConfig>
