@@ -14,7 +14,7 @@ public class SQLToNoSQLImporter {
 
 	// private static final String file = "conf.import";
 
-	public static void main(String[] args) throws MongoException, IOException,
+	public static void main(String[] args) throws Exception, IOException,
 			InvalidAttributesException {
 
 		FileInputStream file = new FileInputStream("conf/import.properties");
