@@ -1,4 +1,4 @@
-package net.sathis.export.sql.model;
+package main.export.sql.model;
 
 public enum DataStoreType {
 	MONGO, ES, COUCH, REDIS

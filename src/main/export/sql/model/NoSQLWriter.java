@@ -1,4 +1,4 @@
-package net.sathis.export.sql.model;
+package main.export.sql.model;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

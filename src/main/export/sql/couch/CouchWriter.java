@@ -1,4 +1,4 @@
-package net.sathis.export.sql.couch;
+package main.export.sql.couch;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import net.sathis.export.sql.model.NoSQLWriter;
+import main.export.sql.model.NoSQLWriter;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 

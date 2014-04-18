@@ -1,4 +1,4 @@
-package net.sathis.export.sql.mongo;
+package main.export.sql.mongo;
 
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import net.sathis.export.sql.model.NoSQLWriter;
+import main.export.sql.model.NoSQLWriter;
 import net.sf.json.JSONArray;
 
 import org.apache.commons.logging.Log;
@@ -50,14 +50,12 @@ public class MongoWriter extends NoSQLWriter {
 
 	public void initConnection(String url, String dbName)
 			throws UnknownHostException, MongoException {
-		@SuppressWarnings("deprecation")
 		Mongo m = new Mongo(url);
 		db = m.getDB(dbName);
 	}
 
 	public void initConnection(String url, String dbName, String user,
 			String password) throws UnknownHostException, MongoException {
-		@SuppressWarnings("deprecation")
 		Mongo m = new Mongo(url);
 		db = m.getDB(dbName);
 

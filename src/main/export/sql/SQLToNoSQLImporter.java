@@ -1,4 +1,4 @@
-package net.sathis.export.sql;
+package main.export.sql;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -14,7 +14,7 @@ public class SQLToNoSQLImporter {
 
 	// private static final String file = "conf.import";
 
-	public static void main(String[] args) throws Exception, IOException,
+	public static void main(String[] args) throws MongoException, IOException,
 			InvalidAttributesException {
 
 		FileInputStream file = new FileInputStream("conf/import.properties");

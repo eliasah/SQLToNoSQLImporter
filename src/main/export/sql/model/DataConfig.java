@@ -1,4 +1,4 @@
-package net.sathis.export.sql.model;
+package main.export.sql.model;
 
 /**
  * Licensed to the Apache Software Foundation (ASF) under one or more

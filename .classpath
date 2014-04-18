@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
   <classpathentry kind="src" path="src" including="**/*.java"/>
+  <classpathentry kind="src" path="conf" excluding="**/*.java"/>
+  <classpathentry kind="src" path="lib" excluding="**/*.java"/>
   <classpathentry kind="output" path="target/classes"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
   <classpathentry kind="var" path="M2_REPO/org/elasticsearch/elasticsearch/1.1.0/elasticsearch-1.1.0.jar" sourcepath="M2_REPO/org/elasticsearch/elasticsearch/1.1.0/elasticsearch-1.1.0-sources.jar"/>
@@ -30,7 +32,7 @@
   <classpathentry kind="var" path="M2_REPO/org/springframework/data/spring-data-commons/1.7.1.RELEASE/spring-data-commons-1.7.1.RELEASE.jar" sourcepath="M2_REPO/org/springframework/data/spring-data-commons/1.7.1.RELEASE/spring-data-commons-1.7.1.RELEASE-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.7.0/slf4j-api-1.7.0.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/slf4j/jcl-over-slf4j/1.7.0/jcl-over-slf4j-1.7.0.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/mongodb/mongo-java-driver/2.11.4/mongo-java-driver-2.11.4.jar" sourcepath="M2_REPO/org/mongodb/mongo-java-driver/2.11.4/mongo-java-driver-2.11.4-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/mongodb/mongo-java-driver/1.3/mongo-java-driver-1.3.jar"/>
   <classpathentry kind="var" path="M2_REPO/jakarta-regexp/jakarta-regexp/1.4/jakarta-regexp-1.4.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/lucene/lucene-analyzers/3.6.0/lucene-analyzers-3.6.0.jar" sourcepath="M2_REPO/org/apache/lucene/lucene-analyzers/3.6.0/lucene-analyzers-3.6.0-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/httpcomponents/fluent-hc/4.3.3/fluent-hc-4.3.3.jar"/>

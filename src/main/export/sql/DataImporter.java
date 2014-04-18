@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package net.sathis.export.sql;
+package main.export.sql;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -28,12 +28,12 @@ import javax.naming.directory.InvalidAttributesException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import net.sathis.export.sql.couch.CouchWriter;
-import net.sathis.export.sql.es.ESWriter;
-import net.sathis.export.sql.model.DataConfig;
-import net.sathis.export.sql.model.DataStoreType;
-import net.sathis.export.sql.model.NoSQLWriter;
-import net.sathis.export.sql.mongo.MongoWriter;
+import main.export.sql.couch.CouchWriter;
+import main.export.sql.es.ESWriter;
+import main.export.sql.model.DataConfig;
+import main.export.sql.model.DataStoreType;
+import main.export.sql.model.NoSQLWriter;
+import main.export.sql.mongo.MongoWriter;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;

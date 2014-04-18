@@ -1,4 +1,4 @@
-package net.sathis.export.sql;
+package main.export.sql;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -15,11 +15,11 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sathis.export.sql.model.DataConfig.Entity;
-import net.sathis.export.sql.model.DataConfig.Field;
-import net.sathis.export.sql.model.DataStoreType;
-import net.sathis.export.sql.model.FieldType;
-import net.sathis.export.sql.model.FieldTypeParser;
+import main.export.sql.model.DataStoreType;
+import main.export.sql.model.FieldType;
+import main.export.sql.model.FieldTypeParser;
+import main.export.sql.model.DataConfig.Entity;
+import main.export.sql.model.DataConfig.Field;
 
 import org.apache.commons.dbutils.BasicRowProcessor;
 import org.apache.commons.lang.StringEscapeUtils;
