@@ -3,22 +3,51 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>SQLToNoSQLImporter</groupId>
 	<artifactId>SQLToNoSQLImporter</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<name>SQL2NoSQL</name>
+	<properties>
+	  <jdk.version>1.6</jdk.version>
+	  <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	  <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	</properties>
 
 	<build>
 		<sourceDirectory>src</sourceDirectory>
+		
+		<resources>
+		  <resource>
+		    <directory>conf</directory>
+		  </resource>
+		  <resource>
+		    <directory>lib</directory>
+		  </resource>
+		</resources>
+		
 		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
-			</plugin>
+		  <plugin>
+		    <artifactId>maven-compiler-plugin</artifactId>
+		    <version>3.1</version>
+		    <configuration>
+		      <source>1.6</source>
+		      <target>1.6</target>
+		    </configuration>
+		  </plugin>
+		  
+		  <plugin>
+		    <groupId>org.apache.maven.plugins</groupId>
+		    <artifactId>maven-jar-plugin</artifactId>
+		    <configuration>
+		      <archive>
+			<manifest>
+			  <mainClass>net.sathis.export.sql.SQLToNoSQLImporter</mainClass>
+			</manifest>
+			    </archive>
+		    </configuration>
+		  </plugin>
 		</plugins>
 	</build>
-
+	
 	<dependencies>
 		<!-- set ElasticSearch dependency -->
 		<dependency>
@@ -32,6 +61,12 @@
 			<artifactId>spring-data-mongodb</artifactId>
 			<version>1.4.1.RELEASE</version>
 		</dependency>
+		<dependency>
+		  <groupId>org.mongodb</groupId>
+		  <artifactId>mongo-java-driver</artifactId>
+		  <version>1.3</version>
+		</dependency>
+
 		<!-- set Lucene Queries dependency -->
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
@@ -144,8 +179,10 @@
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
 			<version>1.1.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/commons-logging-1.1.1.jar</systemPath>
 		</dependency>
-
+	
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
